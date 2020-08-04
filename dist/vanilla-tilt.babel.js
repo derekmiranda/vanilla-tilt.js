@@ -214,7 +214,7 @@ var VanillaTilt = function () {
   };
 
   VanillaTilt.prototype.onMouseMove = function onMouseMove(event) {
-    if (!this.tiltOnMouseDown && this.mouseDown) {
+    if (!this.settings.tiltOnMouseDown && this.mouseDown) {
       return;
     }
 
