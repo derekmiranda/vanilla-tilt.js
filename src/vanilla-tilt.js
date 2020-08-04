@@ -215,9 +215,11 @@ export default class VanillaTilt {
     };
 
     if (this.element && this.element.style) {
+      const xDeg = this.settings.resetToStarting ? this.settings.startX + 'deg' : '0deg'
+      const yDeg = this.settings.resetToStarting ? this.settings.startY + 'deg' : '0deg'
       this.element.style.transform = `perspective(${this.settings.perspective}px) ` +
-        `rotateX(0deg) ` +
-        `rotateY(0deg) ` +
+        `rotateX(${xDeg}) ` +
+        `rotateY(${yDeg}) ` +
         `scale3d(1, 1, 1)`;
     }
 
@@ -373,13 +375,13 @@ export default class VanillaTilt {
   }
 
   updateClientSize() {
-    this.clientWidth = window.innerWidth
-      || document.documentElement.clientWidth
-      || document.body.clientWidth;
+    this.clientWidth = window.innerWidth ||
+      document.documentElement.clientWidth ||
+      document.body.clientWidth;
 
-    this.clientHeight = window.innerHeight
-      || document.documentElement.clientHeight
-      || document.body.clientHeight;
+    this.clientHeight = window.innerHeight ||
+      document.documentElement.clientHeight ||
+      document.body.clientHeight;
   }
 
   onWindowResize() {
@@ -441,6 +443,7 @@ export default class VanillaTilt {
       "full-page-listening": false,
       "mouse-event-element": null,
       reset: true,
+      resetToStarting: false,
       gyroscope: true,
       gyroscopeMinAngleX: -45,
       gyroscopeMaxAngleX: 45,

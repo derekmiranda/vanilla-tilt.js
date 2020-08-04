@@ -233,7 +233,9 @@ var VanillaTilt = function () {
     };
 
     if (this.element && this.element.style) {
-      this.element.style.transform = "perspective(" + this.settings.perspective + "px) " + "rotateX(0deg) " + "rotateY(0deg) " + "scale3d(1, 1, 1)";
+      var xDeg = this.settings.resetToStarting ? this.settings.startX + 'deg' : '0deg';
+      var yDeg = this.settings.resetToStarting ? this.settings.startY + 'deg' : '0deg';
+      this.element.style.transform = "perspective(" + this.settings.perspective + "px) " + ("rotateX(" + xDeg + ") ") + ("rotateY(" + yDeg + ") ") + "scale3d(1, 1, 1)";
     }
 
     this.resetGlare();
@@ -454,6 +456,7 @@ var VanillaTilt = function () {
       "full-page-listening": false,
       "mouse-event-element": null,
       reset: true,
+      resetToStarting: false,
       gyroscope: true,
       gyroscopeMinAngleX: -45,
       gyroscopeMaxAngleX: 45,
