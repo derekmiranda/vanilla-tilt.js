@@ -199,7 +199,7 @@ class VanillaTilt {
   }
 
   onMouseMove(event) {
-    if (!this.tiltOnMouseDown && !this.mouseDown) {
+    if (!this.tiltOnMouseDown && this.mouseDown) {
       return
     }
 
