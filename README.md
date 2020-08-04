@@ -2,7 +2,7 @@
 
 [![npm version](https://badge.fury.io/js/vanilla-tilt.svg)](https://badge.fury.io/js/vanilla-tilt)
 
-__forked:__ adds `resetToStarting` option
+__forked:__ adds `resetToStarting` and `tiltOnMouseDown` options
 
 A smooth 3D tilt javascript library forked from [Tilt.js (jQuery version)](https://github.com/gijsroge/tilt.js).
 

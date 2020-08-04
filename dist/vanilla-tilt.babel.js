@@ -107,12 +107,16 @@ var VanillaTilt = function () {
     this.onMouseEnterBind = this.onMouseEnter.bind(this);
     this.onMouseMoveBind = this.onMouseMove.bind(this);
     this.onMouseLeaveBind = this.onMouseLeave.bind(this);
+    this.onMouseDownBind = this.onMouseDown.bind(this);
+    this.onMouseUpBind = this.onMouseUp.bind(this);
     this.onWindowResizeBind = this.onWindowResize.bind(this);
     this.onDeviceOrientationBind = this.onDeviceOrientation.bind(this);
 
     this.elementListener.addEventListener("mouseenter", this.onMouseEnterBind);
     this.elementListener.addEventListener("mouseleave", this.onMouseLeaveBind);
     this.elementListener.addEventListener("mousemove", this.onMouseMoveBind);
+    this.elementListener.addEventListener("mousedown", this.onMouseDownBind);
+    this.elementListener.addEventListener("mouseup", this.onMouseUpBind);
 
     if (this.glare || this.fullPageListening) {
       window.addEventListener("resize", this.onWindowResizeBind);
@@ -210,6 +214,10 @@ var VanillaTilt = function () {
   };
 
   VanillaTilt.prototype.onMouseMove = function onMouseMove(event) {
+    if (!this.tiltOnMouseDown && !this.mouseDown) {
+      return;
+    }
+
     if (this.updateCall !== null) {
       cancelAnimationFrame(this.updateCall);
     }
@@ -224,6 +232,14 @@ var VanillaTilt = function () {
     if (this.settings.reset) {
       requestAnimationFrame(this.resetBind);
     }
+  };
+
+  VanillaTilt.prototype.onMouseDown = function onMouseDown() {
+    this.mouseDown = true;
+  };
+
+  VanillaTilt.prototype.onMouseUp = function onMouseUp() {
+    this.mouseDown = false;
   };
 
   VanillaTilt.prototype.reset = function reset() {
@@ -434,7 +450,9 @@ var VanillaTilt = function () {
    * @param {boolean} settings.glare-prerender - false = VanillaTilt creates the glare elements for you, otherwise
    * @param {boolean} settings.full-page-listening - If true, parallax effect will listen to mouse move events on the whole document, not only the selected element
    * @param {string|object} settings.mouse-event-element - String selector or link to HTML-element what will be listen mouse events
+   * @param {string|object} settings.tiltOnMouseDown - true = If tilt should happen when mouse button is down
    * @param {boolean} settings.reset - false = If the tilt effect has to be reset on exit
+   * @param {boolean} settings.resetToStarting - false = If the tilt effect has to be resets to startX or startY instead of 0
    * @param {gyroscope} settings.gyroscope - Enable tilting by deviceorientation events
    * @param {gyroscopeSensitivity} settings.gyroscopeSensitivity - Between 0 and 1 - The angle at which max tilt position is reached. 1 = 90deg, 0.5 = 45deg, etc..
    * @param {gyroscopeSamples} settings.gyroscopeSamples - How many gyroscope moves to decide the starting position.
@@ -458,6 +476,7 @@ var VanillaTilt = function () {
       "glare-prerender": false,
       "full-page-listening": false,
       "mouse-event-element": null,
+      tiltOnMouseDown: true,
       reset: true,
       resetToStarting: false,
       gyroscope: true,
